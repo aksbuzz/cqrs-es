@@ -6,7 +6,7 @@ export abstract class Event implements IEvent {
 
   public version: number;
 
-  constructor(public aggregateId: string) {
+  protected constructor(public aggregateId: string) {
     this.aggregateId = aggregateId;
   }
 }

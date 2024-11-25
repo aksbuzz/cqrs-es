@@ -4,6 +4,8 @@ export interface IEventStore {
   /**
    * Saves events to the event store for a given aggregate.
    *
+   * @param aggregateId
+   * @param events
    * @param {number} version - The expected version of the aggregate.
    */
   saveEvents(

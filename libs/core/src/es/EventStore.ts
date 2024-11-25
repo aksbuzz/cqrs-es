@@ -12,7 +12,7 @@ import {
 } from '../util/event-store-event';
 
 export abstract class EventStore implements IEventStore {
-  constructor(
+  protected constructor(
     private readonly _pool: Pool,
     private readonly _eventBus: IEventBus,
   ) {}
@@ -39,6 +39,7 @@ export abstract class EventStore implements IEventStore {
     expectedVersion: number,
   ): Promise<void> {
     const queries = [];
+    const _events = [];
     const lastVersion = await this.getLastVersion(aggregateId);
 
     if (expectedVersion !== lastVersion && expectedVersion !== -1) {
@@ -52,7 +53,7 @@ export abstract class EventStore implements IEventStore {
     for (const event of events) {
       i++;
       event.version = i;
-      this._eventBus.publish(event);
+      _events.push(event);
 
       const esEvent = createEventStoreEvent(event);
       queries.push(`
@@ -63,6 +64,7 @@ export abstract class EventStore implements IEventStore {
 
     try {
       await this._pool.query(queries.join(''));
+      this._eventBus.publishAll(_events);
     } catch (error) {
       throw new InternalServerException('Error saving events.');
     }
