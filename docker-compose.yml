@@ -7,6 +7,14 @@ services:
     ports:
       - "6379:6379"
 
+  nats:
+    container_name: cqrs-es-nats
+    image: nats:latest
+    restart: unless-stopped
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
   postgres:
     container_name: cqrs-es-postgres
     image: postgres:latest

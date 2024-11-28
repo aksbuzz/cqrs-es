@@ -7,25 +7,25 @@ import { CreateJobCommand } from '../application/comands/create-job.command';
 import { UpdateJobCommand } from '../application/comands/update-job.command';
 import { ArchiveJobCommand } from '../application/comands/archive-job.command';
 
-@Controller()
+@Controller('/api/v1/jobs')
 export class JobController {
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
   ) {}
 
-  @Get('/health')
+  @Get('health-check')
   async healthCheck(@Res() res: Response): Promise<void> {
     res.json(ok('Success', undefined));
   }
 
-  @Get('/jobs')
+  @Get()
   async getJobs(@Req() req: Request, @Res() res: Response): Promise<void> {
     const jobs = await this.queryBus.execute(new GetAllJobQuery());
     res.json(ok('Success', jobs));
   }
 
-  @Post('/jobs')
+  @Post()
   async createJob(
     @Body() createJob: CreateJobDTO,
     @Res() res: Response,
@@ -38,7 +38,7 @@ export class JobController {
     res.json(ok('Created job successfully', job));
   }
 
-  @Post('/jobs/:id')
+  @Post(':id')
   async updateJob(
     @Body() updateJob: UpdateJobDTO,
     @Param() param: { id: string },
@@ -51,7 +51,7 @@ export class JobController {
     res.json(ok('Updated job successfully', undefined));
   }
 
-  @Post('/jobs/:id/archive')
+  @Post(':id/archive')
   async archiveJob(
     @Body() archiveJob: ArchiveJobDTO,
     @Param() param: { id: string },

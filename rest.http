@@ -1,0 +1,60 @@
+####
+## JOBS
+####
+
+### Health Check
+GET http://localhost:3000/api/v1/jobs/health-check HTTP/1.1
+
+### Get all Jobs
+GET http://localhost:3000/api/v1/jobs HTTP/1.1
+
+### Create Job
+POST http://localhost:3000/api/v1/jobs HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Job For Application",
+  "description": "This is a description"
+}
+
+### Update Job
+POST http://localhost:3000/api/v1/jobs/-IM04SKNLKBFXggyBvLA4 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Title",
+  "description": "Description",
+  "version": 0
+}
+
+### Archive Job
+POST http://localhost:3000/api/v1/jobs/-IM04SKNLKBFXggyBvLA4 HTTP/1.1
+Content-Type: application/json
+
+{
+  "version": 1
+}
+
+
+
+####
+## Applications
+####
+
+### Health Check
+GET http://localhost:3001/api/v1/applications/health-check HTTP/1.1
+
+### Get Applications
+GET http://localhost:3001/api/v1/applications HTTP/1.1
+
+### Create Application
+POST http://localhost:3001/api/v1/applications HTTP/1.1
+Content-Type: application/json
+
+{
+  "jobId": "-IM04SKNLKBFXggyBvLA4",
+  "firstname": "FirstName",
+  "lastname": "LastName",
+  "email": "email@email.com",
+  "currentPosition": "PM"
+}
